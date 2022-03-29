@@ -1,0 +1,52 @@
+stages:
+  - functionalTest
+functionalTest:
+  rules:
+    - if: "$ISCRON == null"
+      when: on_success
+  variables:
+    GIT_CLEAN_FLAGS: -x -f -e **.txt
+  stage: functionalTest
+  image:
+    name: avistaneobank/fastlane:8-30-6858-1
+  tags:
+    - testavista
+  script:
+    - echo ${NAME_TEST_RUNNER}
+    - export  GRADLE_OPTS="-Dorg.gradle.daemon=false"
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+    - ./gradlew --build-cache assemble
+    - ./gradlew -i test --tests FalconRunner
+  artifacts:
+    paths:
+      - "**/test/index.html" # Define path will be report
+      - "**/report.html" # Define path will be report
+      - "**/*.html" # Define path will be 
+      - "**/*.txt" # Define path will be report
+    when: always
+    expire_in: 1 hour
+CronfunctionalTest:
+  variables:
+    GIT_CLEAN_FLAGS: -x -f -e **/*.txt
+  image:
+    name: avistaneobank/fastlane:8-30-6858-1
+  rules:
+    - if: "$ISCRON == 'true'"
+      when: on_success
+  tags:
+    - testavista
+  stage: functionalTest
+  script:
+    - echo ${NAME_TEST_RUNNER}
+    - export  GRADLE_OPTS="-Dorg.gradle.daemon=false"
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+    - ./gradlew --build-cache assemble
+    - ./gradlew -i test --tests ${NAME_TEST_RUNNER}
+  artifacts:
+    paths:
+      - "**/test/index.html" # Define path will be report
+      - "**/report.html" # Define path will be report
+      - "**/*.html" # Define path will be report
+      - "**/*.txt" # Define path will be report
+    when: always
+    expire_in: 1 hour

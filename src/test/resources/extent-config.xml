@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extentreports>
+    <configuration>
+        <encoding>ISO 8859-1</encoding>
+        <documentTitle>Onbase</documentTitle>
+        <reportName>Automatizacion Falcon</reportName>
+        <reportHeadline> - v1.0.0</reportHeadline>
+        <testViewChartLocation>top</testViewChartLocation>
+        <reportHeadline>A small headline</reportHeadline>
+        <scripts>
+            <![CDATA[
+                $(document).ready(function() {
+                    $('#parentWithoutNodes').prop("checked", true).click();
+                    $('#test-count-setting > div.modal-footer > a')[0].click();
+                });
+            ]]>
+        </scripts>
+    </configuration>
+</extentreports>
